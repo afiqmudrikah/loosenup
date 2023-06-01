@@ -1,5 +1,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const bcrypt = require("bcrypt");
 
 const users = [
   {
@@ -21,10 +22,7 @@ const users = [
 ];
 
 const seedUsers = async (req, res) => {
-  console.log(1);
   try {
-    console.log(2);
-
     await prisma.user.deleteMany();
 
     for (const user of users)
@@ -91,10 +89,69 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const registerUser = async (req, res) => {
+  try {
+    const password = req.body.password;
+    const hash = await bcrypt.hash(password, 10);
+
+    const newUser = await prisma.user.create({
+      data: {
+        email: req.body.email,
+        username: req.body.username,
+        password: hash,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        age: parseInt(req.body.age),
+      },
+    });
+
+    // console.log(hash, newUser);
+    res.json({ status: "ok", message: "User registered!" });
+  } catch (error) {
+    console.error("Unable to register user", error);
+  }
+};
+
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+
+    // checkHash returns a boolean
+    const checkHash = await bcrypt.compare(password, user.password);
+
+    if (checkHash === false) {
+      res.json({ status: "ok", message: "Wrong login info!" });
+    } else {
+      res.json({ status: "ok", message: "User logged in!" });
+    }
+  } catch (error) {
+    console.error("Unable to login user", error);
+    // res.json({ status: "error", message: "Wrong login info!" });
+  }
+};
+
+// findUniqueOrThrow
+// const loginUser = async (req, res) => {
+//   const { email, password } = req.body;
+//   const user = await prisma.user.findFirstOrThrow({
+//     where: { email: email },
+//   });
+
+//   // checkHash returns a boolean
+//   const checkHash = await bcrypt.compare(password, user.password);
+
+//   res.json({ status: "ok", message: "User logged in!" });
+// };
+
 module.exports = {
   seedUsers,
   getUsers,
   postOneUser,
   patchUser,
   deleteUser,
+  registerUser,
+  loginUser,
 };
