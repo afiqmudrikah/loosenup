@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
@@ -108,6 +108,14 @@ const registerUser = async (req, res) => {
     // console.log(hash, newUser);
     res.json({ status: "ok", message: "User registered!" });
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        res.json({
+          status: "error",
+          message: "Email or username already registered.",
+        });
+      }
+    }
     console.error("Unable to register user", error);
   }
 };
@@ -115,6 +123,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await prisma.user.findUnique({
       where: { email: email },
     });
