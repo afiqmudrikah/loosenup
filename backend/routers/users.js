@@ -10,12 +10,12 @@ const {
 } = require("../controllers/users");
 const router = express.Router();
 
-router.get("/", seedUsers);
-router.get("/user", getUsers);
-router.post("/user", postOneUser);
-router.patch("/user", patchUser);
-router.delete("/user", deleteUser);
-router.post("/user/register", registerUser);
-router.post("/user/login", loginUser);
+router.get("/seed", seedUsers);
+router.get("/", getUsers);
+router.post("/", postOneUser);
+router.patch("/", patchUser);
+router.delete("/", deleteUser);
+router.post("/register", registerUser);
+router.post("/login", loginUser);
 
 module.exports = router;

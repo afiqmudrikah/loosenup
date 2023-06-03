@@ -1,4 +1,4 @@
-const { PrismaClient, Prisma } = require("@prisma/client");
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 
@@ -105,7 +105,6 @@ const registerUser = async (req, res) => {
       },
     });
 
-    // console.log(hash, newUser);
     res.json({ status: "ok", message: "User registered!" });
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -128,32 +127,29 @@ const loginUser = async (req, res) => {
       where: { email: email },
     });
 
+    if (!user) {
+      return res.json({
+        status: "error",
+        message: "Invalid email or password",
+      });
+    }
+
     // checkHash returns a boolean
     const checkHash = await bcrypt.compare(password, user.password);
 
-    if (checkHash === false) {
-      res.json({ status: "ok", message: "Wrong login info!" });
-    } else {
-      res.json({ status: "ok", message: "User logged in!" });
+    if (!checkHash) {
+      return res.json({
+        status: "error",
+        message: "Invalid email or password",
+      });
     }
+
+    res.json({ status: "ok", message: "User logged in!" });
   } catch (error) {
     console.error("Unable to login user", error);
-    // res.json({ status: "error", message: "Wrong login info!" });
+    res.json({ status: "error", message: "Unable to login" });
   }
 };
-
-// findUniqueOrThrow
-// const loginUser = async (req, res) => {
-//   const { email, password } = req.body;
-//   const user = await prisma.user.findFirstOrThrow({
-//     where: { email: email },
-//   });
-
-//   // checkHash returns a boolean
-//   const checkHash = await bcrypt.compare(password, user.password);
-
-//   res.json({ status: "ok", message: "User logged in!" });
-// };
 
 module.exports = {
   seedUsers,
