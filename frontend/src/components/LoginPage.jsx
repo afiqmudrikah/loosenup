@@ -21,15 +21,19 @@ const LoginPage = (props) => {
         }),
       }
     );
+    const data = await res.json();
+    console.log(res);
+    console.log(data);
 
-    if (res.status === 200) {
-      props.setIsLoggedIn(true);
-      console.log("Logged in");
-    } else {
-      alert("An error has occured");
+    if (res.ok) {
+      if (data.status === "error") {
+        alert("Invalid email or password");
+      } else {
+        props.setIsLoggedIn(true);
+        console.log("Logged in");
+      }
     }
   };
-
   return (
     <Container component="main" maxWidth="xs">
       <Box
