@@ -1,15 +1,18 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { v4: uuidv4 } = require("uuid");
 
 const users = [
   {
-    email: "user1@example.com",
-    username: "user1",
+    email: "moderator@example.com",
+    username: "moderator",
     password: "password1",
     firstName: "John",
     lastName: "Smith",
     age: 25,
+    isModerator: true,
   },
   {
     email: "user2@example.com",
@@ -144,7 +147,27 @@ const loginUser = async (req, res) => {
       });
     }
 
-    res.json({ status: "ok", message: "User logged in!" });
+    const payload = {
+      name: user.username,
+      role: user.isModerator,
+    };
+
+    const accessToken = jwt.sign(payload, process.env.ACCESS_SECRET, {
+      expiresIn: "20m",
+      jwtid: uuidv4(),
+    });
+
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_SECRET, {
+      expiresIn: "30d",
+      jwtid: uuidv4(),
+    });
+
+    res.json({
+      status: "ok",
+      message: "User logged in!",
+      accessToken,
+      refreshToken,
+    });
   } catch (error) {
     console.error("Unable to login user", error);
     res.json({ status: "error", message: "Unable to login" });
