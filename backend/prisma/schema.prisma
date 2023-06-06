@@ -33,7 +33,7 @@ model Post {
   comment   Comment? @relation("PostComment")
   like      Like?    @relation("LikePost")
   user      User     @relation(fields: [userID], references: [userID])
-  userID    String   @unique
+  userID    String
 }
 
 model Comment {

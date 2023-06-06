@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, Button, Container, TextField } from "@mui/material";
+import UserContext from "../context/user";
 
 const LoginPage = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,13 +24,14 @@ const LoginPage = (props) => {
       }
     );
     const data = await res.json();
-    console.log(res);
-    console.log(data);
+    // console.log(res);
+    // console.log(data);
 
     if (res.ok) {
       if (data.status === "error") {
         alert("Invalid email or password");
       } else {
+        setUser(data.user);
         props.setIsLoggedIn(true);
         console.log("Logged in");
       }

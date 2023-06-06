@@ -1,10 +1,12 @@
-import { AppBar, styled, Toolbar } from "@mui/material";
+import { AppBar, styled, Toolbar, Typography } from "@mui/material";
 import React from "react";
 
 const NavBar = () => {
   return (
     <AppBar position="sticky">
-      <Toolbar>NavBar</Toolbar>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography>LoosenUp</Typography>
+      </Toolbar>
     </AppBar>
   );
 };

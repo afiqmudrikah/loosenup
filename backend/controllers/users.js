@@ -165,6 +165,7 @@ const loginUser = async (req, res) => {
     res.json({
       status: "ok",
       message: "User logged in!",
+      user,
       accessToken,
       refreshToken,
     });
