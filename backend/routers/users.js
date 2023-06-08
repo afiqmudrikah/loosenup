@@ -8,11 +8,12 @@ const {
   registerUser,
   loginUser,
 } = require("../controllers/users");
+const { auth } = require("../middleware/auth");
 const router = express.Router();
 
 router.get("/seed", seedUsers);
 router.get("/", getUsers);
-router.post("/", postOneUser);
+router.post("/", auth, postOneUser);
 router.patch("/", patchUser);
 router.delete("/", deleteUser);
 router.post("/register", registerUser);

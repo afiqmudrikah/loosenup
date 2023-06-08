@@ -55,7 +55,7 @@ const Card = (props) => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <LoginPage setIsLoggedIn={props.setIsLoggedIn} />
+        <LoginPage />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <RegisterPage handleChange={handleChange} />

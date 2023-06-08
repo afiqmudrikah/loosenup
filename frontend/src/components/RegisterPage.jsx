@@ -30,11 +30,22 @@ const RegisterPage = (props) => {
       }
     );
 
-    if (res.status === 200) {
-      alert("Account registered, you can proceed to login");
-      console.log("Registered user");
-    } else {
-      alert("An error has occured");
+    const data = await res.json();
+    console.log(data);
+
+    if (res.ok) {
+      if (data.status === "error") {
+        alert("Email or username already registered");
+      } else {
+        setEmail("");
+        setUsername("");
+        setPassword("");
+        setFirstName("");
+        setLastName("");
+        setAge("");
+        alert("User registered, you can proceed to login");
+        console.log("Registered");
+      }
     }
   };
 
@@ -63,6 +74,7 @@ const RegisterPage = (props) => {
             name="email"
             autoComplete="email"
             autoFocus
+            value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
           <TextField
@@ -73,6 +85,7 @@ const RegisterPage = (props) => {
             label="Username"
             type="username"
             id="username"
+            value={username}
             onChange={(event) => setUsername(event.target.value)}
           />
 
@@ -85,6 +98,7 @@ const RegisterPage = (props) => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
 
@@ -96,6 +110,7 @@ const RegisterPage = (props) => {
             label="First Name"
             type="firstName"
             id="firstName"
+            value={firstName}
             onChange={(event) => setFirstName(event.target.value)}
           />
           <TextField
@@ -106,6 +121,7 @@ const RegisterPage = (props) => {
             label="Last Name"
             type="lastName"
             id="lastName"
+            value={lastName}
             onChange={(event) => setLastName(event.target.value)}
           />
           <TextField
@@ -115,6 +131,7 @@ const RegisterPage = (props) => {
             label="Age"
             type="age"
             id="age"
+            value={age}
             onChange={(event) => setAge(event.target.value)}
           />
 
@@ -124,7 +141,6 @@ const RegisterPage = (props) => {
             variant="contained"
             color="primary"
             sx={{ marginTop: 3, marginBottom: 2 }}
-            // onClick={() => props.handleChange("event", 0)}
           >
             Register
           </Button>

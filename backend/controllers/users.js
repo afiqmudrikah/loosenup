@@ -4,34 +4,29 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 
-const users = [
-  {
-    email: "moderator@example.com",
-    username: "moderator",
-    password: "password1",
-    firstName: "John",
-    lastName: "Smith",
-    age: 25,
-    isModerator: true,
-  },
-  {
-    email: "user2@example.com",
-    username: "user2",
-    password: "password2",
-    firstName: "Alex",
-    lastName: "Tan",
-    age: 30,
-  },
-];
-
 const seedUsers = async (req, res) => {
   try {
     await prisma.user.deleteMany();
 
-    for (const user of users)
+    const mod = [
+      {
+        email: "moderator@example.com",
+        username: "moderator",
+        password: "password123",
+        firstName: "John",
+        lastName: "Smith",
+        age: 25,
+        isModerator: true,
+      },
+    ];
+
+    for (const user of mod) {
+      const hash = await bcrypt.hash(user.password, 10);
+      user.password = hash;
       await prisma.user.create({
         data: user,
       });
+    }
 
     res.json({ status: "ok", message: "Data seeded" });
   } catch (error) {
