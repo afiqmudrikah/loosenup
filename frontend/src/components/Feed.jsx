@@ -20,9 +20,11 @@ import {
   Edit,
   Favorite,
   FavoriteBorder,
-  Comment,
+  AddComment,
 } from "@mui/icons-material";
 import UserContext from "../context/user";
+import Comment from "./Comment";
+import { Link } from "react-router-dom";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -165,9 +167,11 @@ const Feed = () => {
                     </IconButton>
                   )}
                 </>
-                <IconButton aria-label="comment">
-                  <Comment />
-                </IconButton>
+                <Link to="/comments/${item.postID}">
+                  <IconButton aria-label="comment">
+                    <AddComment />
+                  </IconButton>
+                </Link>
               </CardActions>
             </Card>
           );
