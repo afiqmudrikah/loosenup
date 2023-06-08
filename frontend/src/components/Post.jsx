@@ -85,7 +85,7 @@ const Post = () => {
   useEffect(() => {
     // runs on mount
     getUserPosts();
-  }, []);
+  }, [posts]);
 
   return (
     <Box>
