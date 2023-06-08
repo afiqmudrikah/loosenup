@@ -1,5 +1,5 @@
-import { Box, Button, TextField } from "@mui/material";
 import React, { useState, useContext } from "react";
+import { Box, Button, TextField } from "@mui/material";
 import UserContext from "../context/user";
 
 const PostForm = () => {
@@ -46,22 +46,44 @@ const PostForm = () => {
   };
 
   return (
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        padding: "16px",
+        backgroundColor: "#f7f9fb",
+        borderRadius: "8px",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+        width: "600px",
+        marginBottom: "25px",
+      }}
+      component="form"
+      onSubmit={handleSubmit}
+    >
       <TextField
+        sx={{ marginBottom: "16px" }}
         label="Title"
         value={title}
         onChange={handleTitleChange}
-        required
+        fullWidth
+        variant="outlined"
       />
       <TextField
-        label="Content"
+        sx={{ marginBottom: "16px" }}
+        label="What's happening?"
         value={content}
         onChange={handleContentChange}
         multiline
         rows={4}
-        required
+        fullWidth
+        variant="outlined"
       />
-      <Button type="submit" variant="contained" color="primary">
+      <Button
+        sx={{ alignSelf: "flex-end" }}
+        type="submit"
+        variant="contained"
+        color="primary"
+      >
         Post
       </Button>
     </Box>

@@ -10,6 +10,7 @@ import Card from "./components/Card";
 import Profile from "./components/Profile";
 import Home from "./components/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Comment from "./components/Comment";
 
 function App() {
   const [accessToken, setAccessToken] = useState("");
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/feed" element={<Feed />} />
+                <Route path="/comments" element={<Comment />} />
               </Routes>
             </Stack>
           </Box>

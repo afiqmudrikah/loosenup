@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  userPost,
+  createPost,
   getUserPosts,
   updatePost,
   deletePost,
@@ -8,7 +8,7 @@ const {
 } = require("../controllers/posts");
 const router = express.Router();
 
-router.post("/send", userPost);
+router.post("/send", createPost);
 router.get("/:id", getUserPosts);
 router.get("/", getAllPosts);
 router.patch("/:id", updatePost);

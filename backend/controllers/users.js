@@ -48,7 +48,7 @@ const getUsers = async (req, res) => {
 
 const postOneUser = async (req, res) => {
   try {
-    const id = req.body.userID;
+    const id = req.body.id;
     const user = await prisma.user.findUnique({
       where: { userID: id },
     });
@@ -61,11 +61,15 @@ const postOneUser = async (req, res) => {
 
 const patchUser = async (req, res) => {
   try {
-    const id = req.body.userID;
-    const newAge = req.body.age;
+    const id = req.body.id;
+    const { firstName, lastName, age } = req.body;
     const updatedUser = await prisma.user.update({
       where: { userID: id },
-      data: { age: newAge },
+      data: {
+        firstName: firstName,
+        lastName: lastName,
+        age: age,
+      },
     });
 
     res.json(updatedUser);

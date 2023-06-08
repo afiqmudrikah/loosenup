@@ -2,7 +2,7 @@ const { PrismaClient, Prisma } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // Create post
-const userPost = async (req, res) => {
+const createPost = async (req, res) => {
   try {
     const { email, title, content } = req.body;
 
@@ -70,7 +70,7 @@ const updatePost = async (req, res) => {
 
     const sortPosts = await prisma.post.findMany({
       orderBy: {
-        createdAt: "asc",
+        postID: "asc",
       },
     });
 
@@ -98,7 +98,7 @@ const deletePost = async (req, res) => {
 };
 
 module.exports = {
-  userPost,
+  createPost,
   getUserPosts,
   getAllPosts,
   updatePost,

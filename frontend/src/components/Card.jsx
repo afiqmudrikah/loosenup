@@ -27,6 +27,12 @@ const Card = (props) => {
       >
         {value === index && (
           <Box>
+            <Typography
+              variant="h2"
+              sx={{ marginTop: "50px", fontFamily: "cursive" }}
+            >
+              Loosen Up
+            </Typography>
             <Typography>{children}</Typography>
           </Box>
         )}
@@ -44,11 +50,7 @@ const Card = (props) => {
           justifyContent: "center",
         }}
       >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
+        <Tabs value={value} onChange={handleChange} aria-label="basic tabs">
           <Tab label="Login" />
 
           <Tab label="Register" />

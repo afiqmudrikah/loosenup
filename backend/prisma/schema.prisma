@@ -24,27 +24,30 @@ model User {
 }
 
 model Post {
-  postID    Int      @id @default(autoincrement())
-  title     String   @db.VarChar(255)
+  postID    Int       @id @default(autoincrement())
+  title     String    @db.VarChar(255)
   content   String
-  published Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  comment   Comment? @relation("PostComment")
-  like      Like?    @relation("LikePost")
-  user      User     @relation(fields: [userID], references: [userID])
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  comment   Comment?  @relation("PostComment")
+  like      Like?     @relation("LikePost")
+  user      User      @relation(fields: [userID], references: [userID])
   userID    String
+  comments  Comment[]
 }
 
 model Comment {
-  commentID Int      @id @default(autoincrement())
-  content   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation("UserComment", fields: [userID], references: [userID])
-  post      Post     @relation("PostComment", fields: [postID], references: [postID])
-  userID    String   @unique
-  postID    Int      @unique
+  commentID  Int      @id @default(autoincrement())
+  content    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation("UserComment", fields: [userID], references: [userID])
+  post       Post     @relation("PostComment", fields: [postID], references: [postID])
+  userID     String   @unique
+  postID     Int      @unique
+  Post       Post?    @relation(fields: [postPostID], references: [postID])
+  postPostID Int?
 }
 
 model Like {

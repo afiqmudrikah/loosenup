@@ -14,7 +14,7 @@ const router = express.Router();
 router.get("/seed", seedUsers);
 router.get("/", getUsers);
 router.post("/", auth, postOneUser);
-router.patch("/", patchUser);
+router.patch("/", auth, patchUser);
 router.delete("/", deleteUser);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
